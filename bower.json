@@ -1,0 +1,10 @@
+{
+  "name": "o-useragent",
+  "main": [
+    "main.scss"
+  ],
+  "ignore": [
+    "README.md",
+    ".origamiconfig"
+  ]
+}
