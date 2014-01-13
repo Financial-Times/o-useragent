@@ -1,4 +1,6 @@
 {
+  "name": "o-useragent",
+  "private": true,
   "devDependencies": {
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.2.7",
