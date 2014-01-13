@@ -14,20 +14,17 @@ Add the following to the top of your SASS stylesheet
 
 	@import "o-useragent/main";  
 
-For a complete list of variables and their default values see [main.scss](http://git.svc.ft.com/blob/origami%2Fo-useragent.git/HEAD/main.scss).
+For a complete list of supported useragents and the default values of the classes that target them see [main.scss](http://git.svc.ft.com/blob/origami%2Fo-useragent.git/HEAD/_variables.scss).
 
-To target styles at a given user agent interpolate the variable's name in a sass selector:
+To target styles at a given user agent use the `oUseragentTarget()` mixin, e.g.
 
-	#{$o-useragent-ie9} .list-item {
-		//styles
+	@include oUseragentTarget(ie8 ie7) {
+		.sel {
+			//styles
+		}
 	}
 
-### Internet Explorer
-
-#### Selectors
-When writing components prefer to use `$o-useragent-ltie9` and `$o-useragent-ltie8`. As these classes are by default derived from the classes for specific ie browser versions it means your styles will be applied correctly regardless of whether the product follows the convention of applying styles to particular ie versions or to versions earlier than a given release.
-
-#### Polyfills
+### Polyfills
 This module contains a polyfill for Internet Explorer 7's lack of support for css `box-sizing`. e.g.
 
     .column {
@@ -43,3 +40,29 @@ To override the default class name values (e.g. if your product already uses the
 	$o-useragent-ie7: '.lt-ie8';
 	$o-useragent-ltie8: '.lt-ie8';
 	@import "o-useragent/main";
+
+To deprecate support for a given browser use the `oUseragentDeprecate()` mixin, e.g.
+
+	@include oUseragentDeprecate(ie7) {
+		.sel {
+			//styles
+		}
+	}
+
+## Adding a new user agent
+
+To extend this module to target additional user agents you will need to 
+
+1. Give the useragent you're targeting a sensible abbreviated name, including the version number (separated with underscores or hyphens, not dotted) only if you are certain you only need to target that particular version: e.g. opera-mobile, android-2-2	
+2. Add a new useragent class variable to `_variables.scss` e.g `$o-useragent-android-2-2: '.o-useragent-android-2-2' !default; 
+3. In `_mixins.scss` add new rules to `oUseragentTarget ($useragents)`
+
+    @else if ($useragent == 'android-2-2') {
+		$selector: append($selector, $o-useragent-android-2-2, comma);
+	}
+
+	and `oUseragentDeprecate ($useragents)`
+
+	@else if ($useragent == 'android-2-2') {
+		$o-useragent-android-2-2: example;
+	}

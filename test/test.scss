@@ -4,31 +4,31 @@
 		bower install
 		sass test.scss -I bower_components
 */
-@import "main";
+@import "../main";
 
 @mixin test() {
 	/* 7 */
-	@include oUseragentTargetIeVersions(7) {
+	@include oUseragentTarget(ie7) {
 		background: red;
 	}
 
 	/* 8 */
-	@include oUseragentTargetIeVersions(8) {
+	@include oUseragentTarget(ie8) {
 		background: red;
 	}
 
 	/* 9 */
-	@include oUseragentTargetIeVersions(9) {
+	@include oUseragentTarget(ie9) {
 		background: red;
 	}
 
 	/* lt8 */
-	@include oUseragentTargetIeVersions(lt8) {
+	@include oUseragentTarget(ie7) {
 		background: red;
 	}
 
 	/* lt9 */
-	@include oUseragentTargetIeVersions(lt9) {
+	@include oUseragentTarget(ie7 ie8) {
 		background: red;
 	}
 }
@@ -42,13 +42,14 @@ $o-useragent-ltie9: null; //enables resetting
 @import "main";
 @include test();
 
-/* ltie9 = habberdasher */
-$o-useragent-ltie9: '.habberdasher';
+/* ltie9 & 8 */
+$o-useragent-ltie9: '.lt-ie9';
+$o-useragent-ltie8: '.lt-ie8';
 @import "main";
 @include test();
 
 /* deprecate 7 */
-@include oUseragentDeprecateIeVersion(7);
+@include _oUseragentDeprecateIeVersion(7);
 @include test();
 
 
@@ -56,5 +57,5 @@ $o-useragent-ie7: '.ie7';
 $o-useragent-ltie8: '.lt-ie8';
 @import "main";
 /* deprecate 8 */
-@include oUseragentDeprecateIeVersion(8);
+@include _oUseragentDeprecateIeVersion(8);
 @include test();

@@ -1,0 +1,108 @@
+@mixin oUseragentIe7BoxSizing () {
+	*behavior: url(oAssetsUse("polyfills/boxsizing.htc", $o-useragent-assets-path, $o-useragent-version));
+}
+
+@mixin oUseragentTarget ($useragents) {
+	$old-ie: ie7 ie8;
+	$selector: null;
+	$ie-selector: null;
+
+	@each $useragent in $useragents {
+
+		@if index($old-ie, $useragent) {
+			$ie-selector: append($ie-selector, _oUseragentGetIeVersionClass($useragent));
+		} 
+		@else if ($useragent == 'example') {
+			$selector: append($selector, $o-useragent-example, comma);
+		}
+	}
+	@include _oUseragentWrapInSelector ($selector) { @content };
+
+	@include _oUseragentTargetIeVersions ($ie-selector) { @content };
+}
+
+@mixin oUseragentDeprecate ($useragents) {
+
+	@each $useragent in $useragents {
+		@if ($useragent == 'ie7') {
+			@include _oUseragentDeprecateIeVersion(7);
+		} @else if ($useragent == 'ie8') {
+			@include _oUseragentDeprecateIeVersion(8);
+		} 
+		@else if ($useragent == 'example') {
+			$o-useragent-example: example;
+		}
+	}
+}
+
+
+@function _oUseragentGetIeVersionClass($useragent) {
+	
+	$version: null;
+	@if ($useragent == ie7) {
+		$version: $o-useragent-ie7;
+	} @else if ($useragent == ie8) {
+		$version: $o-useragent-ie8;
+	} @else if ($useragent == ie9) {
+		$version: $o-useragent-ie9;
+	} @else if ($useragent == ltie8) {
+		$version: $o-useragent-ltie8;
+	} @else if ($useragent == ltie9) {
+		$version: $o-useragent-ltie9;
+	}
+
+	@return $version;
+}
+
+@mixin _oUseragentTargetIeVersions ($versions) {
+
+	$selector: null;
+	@each $version in $versions {
+		@if ($version == $o-useragent-ie7) {
+			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie7);
+			@if ($o-useragent-ie7 != $o-useragent-ltie8) {
+				$selector: _oUseragentAppendSelector($selector, $o-useragent-ltie8);
+			}
+		} @else if ($version == $o-useragent-ie8) {
+			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie8);
+		} @else if ($version == $o-useragent-ie9) {
+			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie9);
+		} 
+	}
+	@if (
+		index($versions, 7) and 
+		index($versions, 8) and 
+		(#{#{$o-useragent-ie7}, #{$o-useragent-ie8}} != $o-useragent-ltie9) and 
+		(#{#{$o-useragent-ie8}, #{$o-useragent-ie7}} != $o-useragent-ltie9)
+	) {
+		$selector: _oUseragentAppendSelector($o-useragent-ltie9);
+	}
+	@include _oUseragentWrapInSelector($selector) { @content };
+}
+
+@mixin _oUseragentDeprecateIeVersion ($version) {
+
+	@if ($version == 7 or $version == 8) {
+		$o-useragent-ie7: null;
+		$o-useragent-ltie8: null;
+	} 
+
+	@if ($version == 8) {
+		$o-useragent-ltie9: null;
+		$o-useragent-ie8: null;
+	}
+}
+
+@mixin _oUseragentWrapInSelector ($selector:null) {
+	@if($selector) {
+		#{$selector} { @content }
+	} 
+}
+
+@function _oUseragentAppendSelector ($aggregate, $selector) {
+
+	@if ($selector) {
+		$aggregate: append($aggregate, #{$selector}, comma);
+	} 
+	@return $aggregate;
+}
