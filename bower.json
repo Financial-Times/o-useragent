@@ -2,7 +2,8 @@
   "name": "o-useragent",
   "main": [
     "main.scss", 
-    "polyfills/*"
+    "polyfills/*",
+    "test.scss"
   ],
   "ignore": [
     "README.md",
