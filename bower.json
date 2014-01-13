@@ -3,7 +3,8 @@
   "main": [
     "main.scss", 
     "polyfills/*",
-    "test.scss"
+    "test/*",
+    ".gitignore"
   ],
   "ignore": [
     "README.md",
