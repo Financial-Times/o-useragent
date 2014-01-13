@@ -1,9 +1,16 @@
 {
   "name": "o-useragent",
   "main": [
-    "main.scss"
+    "main.scss", 
+    "polyfills/*"
   ],
   "ignore": [
-    "README.md"
-  ]
+    "README.md",
+	"Gruntfile.js",
+	"package.json",
+	"src"
+  ],
+  "dependencies": {
+  	"o-assets": "http://git.svc.ft.com:9080/git/origami/o-assets.git#>=0.2.0"
+  }
 }

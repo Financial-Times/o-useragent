@@ -22,8 +22,18 @@ To target styles at a given user agent interpolate the variable's name in a sass
 		//styles
 	}
 
-### Targeting styles at Internet Explorer
+### Internet Explorer
+
+#### Selectors
 When writing components prefer to use `$o-useragent-ltie9` and `$o-useragent-ltie8`. As these classes are by default derived from the classes for specific ie browser versions it means your styles will be applied correctly regardless of whether the product follows the convention of applying styles to particular ie versions or to versions earlier than a given release.
+
+#### Polyfills
+This module contains a polyfill for Internet Explorer 7's lack of support for css `box-sizing`. e.g.
+
+    .column {
+		box-sizing: border-box;
+		@include oUseragentIe7BoxSizing();
+    }
 
 ###Product development
 How the classes are added to the html of a product is left up to the product developer.
