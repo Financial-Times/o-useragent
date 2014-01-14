@@ -3,7 +3,7 @@
 }
 
 @mixin oUseragentTarget ($useragents) {
-	
+
 	$selector: null;
 	$ie-selector: null;
 
@@ -31,7 +31,7 @@
 			@include _oUseragentDeprecateIeVersion(8);
 		} 
 		@else if ($useragent == 'example') {
-			$o-useragent-example: example;
+			$o-useragent-example: null;
 		}
 	}
 }
