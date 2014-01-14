@@ -3,14 +3,15 @@
 }
 
 @mixin oUseragentTarget ($useragents) {
-	$old-ie: ie7 ie8;
+	
 	$selector: null;
 	$ie-selector: null;
 
 	@each $useragent in $useragents {
-
-		@if index($old-ie, $useragent) {
-			$ie-selector: append($ie-selector, _oUseragentGetIeVersionClass($useragent));
+		@if ($useragent == 'ie7') {
+			$ie-selector: append($ie-selector, $o-useragent-ie7);
+		} @else if ($useragent == 'ie8') {
+			$ie-selector: append($ie-selector, $o-useragent-ie8);
 		} 
 		@else if ($useragent == 'example') {
 			$selector: append($selector, $o-useragent-example, comma);
@@ -33,25 +34,6 @@
 			$o-useragent-example: example;
 		}
 	}
-}
-
-
-@function _oUseragentGetIeVersionClass($useragent) {
-	
-	$version: null;
-	@if ($useragent == ie7) {
-		$version: $o-useragent-ie7;
-	} @else if ($useragent == ie8) {
-		$version: $o-useragent-ie8;
-	} @else if ($useragent == ie9) {
-		$version: $o-useragent-ie9;
-	} @else if ($useragent == ltie8) {
-		$version: $o-useragent-ltie8;
-	} @else if ($useragent == ltie9) {
-		$version: $o-useragent-ltie9;
-	}
-
-	@return $version;
 }
 
 @mixin _oUseragentTargetIeVersions ($versions) {
