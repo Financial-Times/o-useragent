@@ -41,7 +41,7 @@
 	}
 	@include _oUseragentWrapInSelector ($selector) { @content };
 
-	@include _oUseragentTargetIeVersions ($ie-selector) { @content };
+	@include _oUseragentTargetOldIeVersions ($ie-selector) { @content };
 }
 
 
@@ -51,9 +51,9 @@
 	@each $useragent in $useragents {
 		// ie7 & 8 are handled differently due to the need to target e.g lt-ie9 style classes as well as ones specific to a single version
 		@if ($useragent == 'ie7') {
-			@include _oUseragentDeprecateIeVersion(7);
+			@include _oUseragentDeprecateOldIeVersion(7);
 		} @else if ($useragent == 'ie8') {
-			@include _oUseragentDeprecateIeVersion(8);
+			@include _oUseragentDeprecateOldIeVersion(8);
 		} 
 		@else if ($useragent == 'ie9') {
 			$o-useragent-ie9: null;
