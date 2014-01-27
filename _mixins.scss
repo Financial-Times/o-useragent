@@ -101,7 +101,7 @@
 }
 
 /* 
-	Deprectaes support for ie7 or 8, making sure that both browser specific and lt- selectors are removed
+	Deprecates support for ie7 or 8, making sure that both browser specific and lt- selectors are removed
 */
 @mixin _oUseragentDeprecateOldIeVersion ($version) {
 
