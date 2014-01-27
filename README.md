@@ -57,12 +57,12 @@ To extend this module to target additional user agents you will need to
 2. Add a new useragent class variable to `_variables.scss` e.g `$o-useragent-android-2-2: '.o-useragent-android-2-2' !default; 
 3. In `_mixins.scss` add new rules to `oUseragentTarget ($useragents)`
 
-    @else if ($useragent == 'android-2-2') {
-		$selector: append($selector, $o-useragent-android-2-2, comma);
-	}
+	    @else if ($useragent == 'android-2-2') {
+			$selector: append($selector, $o-useragent-android-2-2, comma);
+		}
 
 	and `oUseragentDeprecate ($useragents)`
 
-	@else if ($useragent == 'android-2-2') {
-		$o-useragent-android-2-2: example;
-	}
+		@else if ($useragent == 'android-2-2') {
+			$o-useragent-android-2-2: example;
+		}
