@@ -1,3 +1,3 @@
 module.exports = {
-	vendorify: require('./js/vendorify')
+	vendorify: require('./src/js/vendorify')
 };
