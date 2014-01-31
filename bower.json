@@ -1,6 +1,6 @@
 {
   "name": "o-useragent",
-  "main": ["main.scss"],
+  "main": ["main.scss", "main.js"],
   "ignore": [
     "README.md",
 	  "Gruntfile.js",
