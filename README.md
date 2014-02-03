@@ -71,8 +71,8 @@ This module also provides a javascript utility, `o-useragent#prefixer` to retrie
 To extend this module to target additional user agents you will need to 
 
 1. Give the useragent you're targeting a sensible abbreviated name, including the version number (separated with underscores or hyphens, not dotted) only if you are certain you only need to target that particular version: e.g. opera-mobile, android-2-2	
-2. Add a new useragent class variable to `_variables.scss` e.g `$o-useragent-android-2-2: '.o-useragent-android-2-2' !default; 
-3. In `_mixins.scss` add new rules to `oUseragentTarget ($useragents)`
+2. Add a new useragent class variable to `src/scss/_variables.scss` e.g `$o-useragent-android-2-2: '.o-useragent-android-2-2' !default; 
+3. In `src/scss/_mixins.scss` add new rules to `oUseragentTarget ($useragents)`
 
 	    @else if ($useragent == 'android-2-2') {
 			$selector: append($selector, $o-useragent-android-2-2, comma);
