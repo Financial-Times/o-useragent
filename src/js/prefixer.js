@@ -67,6 +67,32 @@ function getPrefixedDomProp (prefixedProps, obj, elem) {
 }
 
 /*
+ * Analyses a property name to see if it's camel case or hyphenated. If hyphenated, converts to hyphenated and 
+ * makes a note that the conversion needs to be undone before returning.
+ */
+function preprocessProp (prop) {
+    var obj = {
+        prop: prop
+    };
+    if (prop.indexOf('-') > -1) {
+        obj.prop = prop.replace(/(?:\-)([a-z])/gi, function ($0, $1) {
+            return $1.toUpperCase();
+        });
+        obj.hyphenated = true;
+    }
+    return obj;
+}
+
+/*
+ * Converts a camelcase property to its hyphenated equivalent
+ */
+function hyphenateProp (prop) {
+    return prop.replace(/([A-Z])/g, function (prop, m1) {
+        return '-' + m1.toLowerCase();
+    }).replace(/^ms-/,'-ms-');
+}
+
+/*
  * Given a style property name returns the property name (possibly prefixed) if supported by the browser
  * Given a DOM property name and an object on which the property is expected to be defined, finds the 
  *  (possibly prefixed) property and:
@@ -76,17 +102,23 @@ function getPrefixedDomProp (prefixedProps, obj, elem) {
  */
 function getPrefixedProp (prop, obj, elem) {
 
-    var uppercaseProp = prop.charAt(0).toUpperCase() + prop.slice(1),
+    var processedProp = preprocessProp(prop),
+        prop = processedProp.prop,
+        uppercaseProp = prop.charAt(0).toUpperCase() + prop.slice(1),
         prefixedProps;
 
     if (is(obj, "undefined")) {
         prefixedProps = (prop + ' ' + stylePrefixes.join(uppercaseProp + ' ') + uppercaseProp).split(' ');
-        return getPrefixedStyleProp(prefixedProps);
-
+        prop = getPrefixedStyleProp(prefixedProps);
+        if (processedProp.hyphenated) {
+            prop = hyphenateProp(prop);
+        }
     } else {
         prefixedProps = (prop + ' ' + (domPrefixes).join(uppercaseProp + ' ') + uppercaseProp).split(' ');
-        return getPrefixedDomProp(prefixedProps, obj, elem);
+        prop = getPrefixedDomProp(prefixedProps, obj, elem);
     }
+
+    return prop;
 }
 
 module.exports = getPrefixedProp;

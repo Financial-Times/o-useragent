@@ -1,3 +1,3 @@
 module.exports = {
-	vendorify: require('./src/js/prefixer')
+	prefixer: require('./src/js/prefixer')
 };
