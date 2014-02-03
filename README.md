@@ -1,6 +1,6 @@
 # Origami user agent <small>*o-useragent*</small>
 
-This module provides sass variables for classes used to target particular user agents.
+This module provides sass variables for classes used to target particular user agents and a javascript utility for working with vendor-prefixed properties.
 
 ## Installation
 
@@ -32,7 +32,7 @@ This module contains a polyfill for Internet Explorer 7's lack of support for cs
 		@include oUseragentIe7BoxSizing();
     }
 
-###Product development
+### Product development
 How the classes are added to the html of a product is left up to the product developer.
 
 To override the default class name values (e.g. if your product already uses the class `lt-ie8`) redefine the variables *before* importing the main stylesheet
@@ -48,6 +48,23 @@ To deprecate support for a given browser use the `oUseragentDeprecate()` mixin, 
 			//styles
 		}
 	}
+
+### Vendor prefixes
+This module also provides a javascript utility, `o-useragent#prefixer` to retrieve a vendor-prefixed property if the browser doesn't yet support it unprefixed e.g. if passed in `transition-duration` in newer browsers it will return `transition-duration`, but will return `-webkit-transition-duration`, '-ms-transition-duration' etc... in older browsers. It can be used for either DOM or style properties as follows (NB: below 'correct' means the correct choice of unprefixed or vendor prefixed property as defined in the browser)
+
+#### Style properties
+* `o-useragent#prefixer('transition-duration')`: returns the correct hyphenated css property name
+* `o-useragent#prefixer('transitionDuration')`: returns the correct camel-cased el.style property name
+
+#### Dom properties
+*Note - the following also support being passed in hyphenated property names*
+
+* `o-useragent#prefixer('applicationCache', window)`: returns the correct applicationCache object
+* `o-useragent#prefixer('postMessage', window)`: returns the correct postMessage method bound to the window object
+* `o-useragent#prefixer('matchesSelector', HTMLElement.prototype, document.body)`: returns the correct matchesSelector method bound to the document.body
+* `o-useragent#prefixer('applicationCache', window, false)`: returns the correct *camel-cased* property name for the applicationCache object
+
+
 
 ## Adding a new user agent
 
