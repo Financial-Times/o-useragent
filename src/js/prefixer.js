@@ -108,12 +108,14 @@ function getPrefixedProp (prop, obj, elem) {
         prefixedProps;
 
     if (is(obj, "undefined")) {
+        // e.g. boxSizing -> boxSizing WebkitBoxSizing MozBoxSizing OBoxSizing msBoxSizing
         prefixedProps = (prop + ' ' + stylePrefixes.join(uppercaseProp + ' ') + uppercaseProp).split(' ');
         prop = getPrefixedStyleProp(prefixedProps);
         if (processedProp.hyphenated) {
             prop = hyphenateProp(prop);
         }
     } else {
+        // e.g. boxSizing -> boxSizing webkitBoxSizing mozBoxSizing oBoxSizing msBoxSizing
         prefixedProps = (prop + ' ' + (domPrefixes).join(uppercaseProp + ' ') + uppercaseProp).split(' ');
         prop = getPrefixedDomProp(prefixedProps, obj, elem);
     }
