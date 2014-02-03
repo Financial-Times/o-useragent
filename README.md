@@ -50,7 +50,7 @@ To deprecate support for a given browser use the `oUseragentDeprecate()` mixin, 
 	}
 
 ### Vendor prefixes
-This module also provides a javascript utility, `o-useragent#prefixer` to retrieve a vendor-prefixed property if the browser doesn't yet support it unprefixed e.g. if passed in `transition-duration` in newer browsers it will return `transition-duration`, but will return `-webkit-transition-duration`, '-ms-transition-duration' etc... in older browsers. It can be used for either DOM or style properties as follows (NB: below 'correct' means the correct choice of unprefixed or vendor prefixed property as defined in the browser)
+This module also provides a javascript utility, `o-useragent#prefixer` to retrieve a vendor-prefixed property if the browser doesn't yet support it unprefixed e.g. if passed in `transition-duration` in newer browsers it will return `transition-duration`, but will return `-webkit-transition-duration`, `-ms-transition-duration` etc... in older browsers. It can be used for either DOM or style properties as follows (NB: below 'correct' means the correct choice of unprefixed or vendor prefixed property as defined in the browser)
 
 #### Style properties
 * `o-useragent#prefixer('transition-duration')`: returns the correct hyphenated css property name
