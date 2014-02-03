@@ -78,6 +78,7 @@
 			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie7);
 			// if the selector for lt-ie8 differs from the selector for ie7 (in particular, if the selector for ie7 is null) add this selector
 			@if ($o-useragent-ie7 != $o-useragent-ltie8) {
+				@warn 'If possible please change to using classes that target specific version of ie rather than a range of versions i.e. ie7, ie8 not lt-ie9, lt-ie8';
 				$selector: _oUseragentAppendSelector($selector, $o-useragent-ltie8);
 			}
 		} @else if ($version == $o-useragent-ie8) {
@@ -94,6 +95,7 @@
 		(#{#{$o-useragent-ie7}, #{$o-useragent-ie8}} != $o-useragent-ltie9) and 
 		(#{#{$o-useragent-ie8}, #{$o-useragent-ie7}} != $o-useragent-ltie9)
 	) {
+		@warn 'If possible please change to using classes that target specific version of ie rather than a range of versions i.e. ie7, ie8 not lt-ie9, lt-ie8';
 		$selector: _oUseragentAppendSelector($o-useragent-ltie9);
 	}
 
