@@ -6,7 +6,7 @@ This module provides sass variables for classes used to target particular user a
 
 To include `o-useragent` in your module or product run
 
-	bower install o-useragent=http://git.svc.ft.com:9080/git/origami/o-useragent.git --save
+	bower install o-useragent=https://github.com/Financial-Times/o-useragent.git --save
 
 ## Usage
 
@@ -14,7 +14,7 @@ Add the following to the top of your SASS stylesheet
 
 	@import "o-useragent/main";  
 
-For a complete list of supported useragents and the default values of the classes that target them see [main.scss](http://git.svc.ft.com/blob/origami%2Fo-useragent.git/HEAD/_variables.scss).
+For a complete list of supported useragents and the default values of the classes that target them see [main.scss](https://github.com/Financial-Times/o-useragent/blob/master/src/scss/_variables.scss).
 
 To target styles at a given user agent use the `oUseragentTarget()` mixin, e.g.
 
