@@ -10,111 +10,34 @@
 	} 
 }
 
-// appends a selector to an existing list of selectors, or does nothing if the selector is null
-@function _oUseragentAppendSelector ($aggregate, $selector) {
-
-	@if ($selector) {
-		$aggregate: append($aggregate, #{$selector}, comma);
+// appends a useragent selector to an existing list of selectors
+@function _oUseragentAppendSelector ($aggregate, $useragent, $version: #{''}) {
+	$useragent: $useragent$version
+	@debug "To support $useragent you need to extend the placeholder class %o-useragent-$useragent and add a conditional class to your page's html tag";
+	$selector: o-useragent-$useragent;
+	$aggregate: append($aggregate, #{%#{$selector}}, comma);
+	@if (not $o-useragent-is-silent) {
+		$aggregate: append($aggregate, #{.#{$selector}}, comma);
 	} 
 	@return $aggregate;
 }
 
 // wraps styles aimed at a particular user agent in a class (definable at product level but defaulting to o-useragent-{useragent name})
-@mixin oUseragentTarget ($useragents) {
+@mixin oUseragentTarget ($useragents, $versions: null) {
 
 	$selector: null;
 	$ie-selector: null;
-
-	@each $useragent in $useragents {
-		// ie7 & 8 are handled differently due to the need to target e.g lt-ie9 style classes as well as ones specific to a single version
-		@if ($useragent == 'ie7') {
-			$ie-selector: _oUseragentAppendSelector($ie-selector, $o-useragent-ie7);
-		} @else if ($useragent == 'ie8') {
-			$ie-selector: _oUseragentAppendSelector($ie-selector, $o-useragent-ie8);
-		} 
-		@else if ($useragent == 'ie9') {
-			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie9);
-		}
-		@else if ($useragent == 'example') {
-			$selector: _oUseragentAppendSelector($selector, $o-useragent-example);
+	
+	@if (count($useragents) == 1 and $versions) {
+		// multiple versions of a single useragent	
+		@each $version in $versions {
+			$selector: _oUseragentAppendSelector($selector, $useragents, $version);
+		}		
+	} @else {
+		// multiple useragents
+		@each $useragent in $useragents {
+			$selector: _oUseragentAppendSelector($selector, $useragent);
 		}
 	}
 	@include _oUseragentWrapInSelector ($selector) { @content };
-
-	@include _oUseragentTargetOldIeVersions ($ie-selector) { @content };
 }
-
-
-// Suppresses styles targeted at the given useragent from being output
-@mixin oUseragentDeprecate ($useragents) {
-
-	@each $useragent in $useragents {
-		// ie7 & 8 are handled differently due to the need to target e.g lt-ie9 style classes as well as ones specific to a single version
-		@if ($useragent == 'ie7') {
-			@include _oUseragentDeprecateOldIeVersion(7);
-		} @else if ($useragent == 'ie8') {
-			@include _oUseragentDeprecateOldIeVersion(8);
-		} 
-		@else if ($useragent == 'ie9') {
-			$o-useragent-ie9: null;
-		}
-		@else if ($useragent == 'example') {
-			$o-useragent-example: null;
-		}
-	}
-}
-
-/*
-	This mixin allows ie7 and 8 to be targeted using either
-	* specific classes for each of ie7 and ie8
-	* 'less than' classes targeting ie versions less than a given version e.g. lt-ie9 & lt-ie8
-*/
-@mixin _oUseragentTargetOldIeVersions ($versions) {
-
-	$selector: null;
-	@each $version in $versions {
-		@if ($version == $o-useragent-ie7) {
-			// add the selector to target ie7 directly
-			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie7);
-			// if the selector for lt-ie8 differs from the selector for ie7 (in particular, if the selector for ie7 is null) add this selector
-			@if ($o-useragent-ie7 != $o-useragent-ltie8) {
-				@warn 'If possible please change to using classes that target specific version of ie rather than a range of versions i.e. ie7, ie8 not lt-ie9, lt-ie8';
-				$selector: _oUseragentAppendSelector($selector, $o-useragent-ltie8);
-			}
-		} @else if ($version == $o-useragent-ie8) {
-			// add the selector to target ie8 directly
-			$selector: _oUseragentAppendSelector($selector, $o-useragent-ie8);
-		}
-	}
-	
-	// if both ie7 and ie8 are being targetted and the selector for lt-ie9 is not just a comma separated list
-	// of selectors for ie7 and ie8, add this selector too
-	@if (
-		index($versions, 7) and 
-		index($versions, 8) and 
-		(#{#{$o-useragent-ie7}, #{$o-useragent-ie8}} != $o-useragent-ltie9) and 
-		(#{#{$o-useragent-ie8}, #{$o-useragent-ie7}} != $o-useragent-ltie9)
-	) {
-		@warn 'If possible please change to using classes that target specific version of ie rather than a range of versions i.e. ie7, ie8 not lt-ie9, lt-ie8';
-		$selector: _oUseragentAppendSelector($o-useragent-ltie9);
-	}
-
-	@include _oUseragentWrapInSelector($selector) { @content };
-}
-
-/* 
-	Deprecates support for ie7 or 8, making sure that both browser specific and lt- selectors are removed
-*/
-@mixin _oUseragentDeprecateOldIeVersion ($version) {
-
-	@if ($version == 7 or $version == 8) {
-		$o-useragent-ie7: null;
-		$o-useragent-ltie8: null;
-	} 
-
-	@if ($version == 8) {
-		$o-useragent-ltie9: null;
-		$o-useragent-ie8: null;
-	}
-}
-
