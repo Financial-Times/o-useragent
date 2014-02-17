@@ -1,0 +1,5 @@
+$o-ft-useragent-is-silent: false;
+@import '../main';
+@include oUseragentTarget(ie-7) {
+	.class {color: red;}
+}
