@@ -53,7 +53,7 @@ The following examples turn the background colour of `<h1>` elements red only in
 
 ```scss
 // IE7 and 8, plus all versions of Opera
-@include oUseragentTarget(ie7 ie8 opera) {
+@include oUseragentTarget(ie-7 ie-8 opera) {
 	h1 { background-color: red }
 }
 

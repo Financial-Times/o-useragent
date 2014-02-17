@@ -11,13 +11,15 @@
 }
 
 // appends a useragent selector to an existing list of selectors
-@function _oUseragentAppendSelector ($aggregate, $useragent, $version: #{''}) {
-	$useragent: $useragent$version
-	@debug "To support $useragent you need to extend the placeholder class %o-useragent-$useragent and add a conditional class to your page's html tag";
-	$selector: o-useragent-$useragent;
-	$aggregate: append($aggregate, #{%#{$selector}}, comma);
+@function _oUseragentAppendSelector ($aggregate, $useragent, $version: null) {
+	@if ($version) {
+		$useragent: $useragent$version;
+	}
+	@debug "To support #{$useragent} you need to extend the placeholder class %o-useragent-#{$useragent} and add a conditional class to your page's html tag";
+	$selector: o-useragent- + $useragent;
+	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
 	@if (not $o-useragent-is-silent) {
-		$aggregate: append($aggregate, #{.#{$selector}}, comma);
+		$aggregate: append($aggregate, #{'.#{$selector}'}, comma);
 	} 
 	@return $aggregate;
 }
@@ -39,5 +41,5 @@
 			$selector: _oUseragentAppendSelector($selector, $useragent);
 		}
 	}
-	@include _oUseragentWrapInSelector ($selector) { @content };
+	@include _oUseragentWrapInSelector($selector) { @content };
 }
