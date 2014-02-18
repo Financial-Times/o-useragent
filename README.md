@@ -53,12 +53,12 @@ The following examples turn the background colour of `<h1>` elements red only in
 
 ```scss
 // IE7 and 8, plus all versions of Opera
-@include oUseragentTarget(ie-7 ie-8 opera) {
+@include oUseragentTarget(ie7 ie8 opera) {
 	h1 { background-color: red }
 }
 
 // Firefox 3.2 and 3.3
-@include oUseragentTarget(ff, 3-2 3-3) {
+@include oUseragentTarget(ff, 32 33) {
 	h1 { background-color: red }
 }
 ```
@@ -70,23 +70,23 @@ When building a product, you may not want components to include CSS in your bund
 
 #### Using the build service
 
-If you are generating your style bundle from the build service, all useragent-targeting styles will be included, and will be attached to pre-defined class names based on the syntax `o-useragent-<familyname>-<majorversion>-<minorversion>`.
+If you are generating your style bundle from the build service, all useragent-targeting styles will be included, and will be attached to pre-defined class names based on the syntax `o-useragent-<familyname><majorversion>-<minorversion>`.
 
 #### Using a local build process
 
 If you are [building your product's origami styles locally](http://financial-times.github.io/ft-origami/docs/developer-guide/building-modules/) Sass will log to the console any specific useragent targeting that it encounters while building the bundle, and by default will not include any of the special targeted rules. To output useragent X you will need to carry out your own ua-sniffing for X and conditionally add a class of your choice, say `class-X`, to the `<html>` tag. Then in your sass:
 
 ```scss
-.ie7 { @extend %o-useragent-ie-7 !optional; }
-.ie8 { @extend %o-useragent-ie-8 !optional; }
-.ios7 { @extend %o-useragent-iossafari-7 !optional; }
+.ie7 { @extend %o-useragent-ie7 !optional; }
+.ie8 { @extend %o-useragent-ie8 !optional; }
+.ios7 { @extend %o-useragent-iossafari7 !optional; }
 ```
 
 ### Adding the appropriate UA-identifying class to the HTML tag
 
 To use UA-targeted styles, you should detect which user agent is in use, and add the appropriate class names to the `<html>` element.  If you got your CSS bundle via the build service, you need to add `o-useragent`-namespaced classes:
 
-	<html class='o-useragent-ie o-useragent-ie-9'>
+	<html class='o-useragent-ie o-useragent-ie9'>
 
 Note that some UA-targeting might target all versions of IE, while others might target just IE9, so include both.
 
