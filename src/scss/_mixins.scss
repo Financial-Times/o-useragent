@@ -15,7 +15,7 @@
 	@if ($version) {
 		$useragent: $useragent$version;
 	}
-	@debug "To support #{$useragent} you need to extend the placeholder class %o-useragent-#{$useragent} and add a conditional class to your page's html tag";
+	@debug "Styles are being targeted at #{$useragent}.  To apply them, extend %o-useragent-#{$useragent} in a class, and apply the class to your HTML tag when #{$useragent} is detected.";
 	$selector: o-useragent- + $useragent;
 	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
 	@if (not $o-useragent-is-silent) {
