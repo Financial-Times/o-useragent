@@ -1,12 +1,4 @@
+$o-useragent-is-silent: true !default;
 $o-useragent-name: o-useragent;
 $o-useragent-assets-path: $o-useragent-name !default;
 $o-useragent-version: null !default;
-
-
-$o-useragent-ie9: '.o-useragent-ie9' !default;
-$o-useragent-ie8: '.o-useragent-ie8' !default;
-$o-useragent-ie7: '.o-useragent-ie7' !default;
-$o-useragent-ltie9: #{$o-useragent-ie7}, #{$o-useragent-ie8} !default;
-$o-useragent-ltie8: $o-useragent-ie7 !default;
-
-$o-useragent-example: '.o-useragent-example';
