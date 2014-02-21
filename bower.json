@@ -2,9 +2,8 @@
   "name": "o-useragent",
   "main": ["main.scss", "main.js"],
   "ignore": [
-    "README.md",
-	  "Gruntfile.js",
-	  "package.json",
+    "Gruntfile.js",
+    "package.json",
     ".gitignore",
     "test",
     ".travis.yml"
