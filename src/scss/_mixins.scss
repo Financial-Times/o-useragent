@@ -17,7 +17,6 @@
 	}
 	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
 		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
-		@debug $_o-useragent-targeted-useragents;
 		@debug "Styles are being targeted at #{$useragent}.  To apply them, extend %o-useragent-#{$useragent} in a class, and apply the class to your HTML tag when #{$useragent} is detected.";
 	}
 	$selector: o-useragent- + $useragent;

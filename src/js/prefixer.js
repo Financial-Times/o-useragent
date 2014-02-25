@@ -111,7 +111,7 @@ function getPrefixedProp (prop, obj, elem) {
         // e.g. boxSizing -> boxSizing WebkitBoxSizing MozBoxSizing OBoxSizing msBoxSizing
         prefixedProps = (prop + ' ' + stylePrefixes.join(uppercaseProp + ' ') + uppercaseProp).split(' ');
         prop = getPrefixedStyleProp(prefixedProps);
-        if (processedProp.hyphenated) {
+        if (prop && processedProp.hyphenated) {
             prop = hyphenateProp(prop);
         }
     } else {
