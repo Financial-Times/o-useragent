@@ -49,14 +49,14 @@ function getPrefixedStyleProp (prefixedProps) {
 /*
  * Given a list of equivalent DOM properties (all but one of them containing a vendor prefix), returns the first one that is supported by the browser
  */
-function getPrefixedDomProp (prefixedProps, obj, elem) {
+function getPrefixedDomProp (prefixedProps, obj, elem, bindFunctions) {
     for (var i in prefixedProps) {
         var item = obj[prefixedProps[i]];
         if (item !== undefined) {
 
             if (elem === false) return prefixedProps[i];
 
-            if (is(item, 'function')) {
+            if (bindFunctions && is(item, 'function')) {
                 return bind(item, elem || obj);
             }
 
@@ -117,14 +117,19 @@ function getPrefixedProp (prop, obj, elem) {
     } else {
         // e.g. boxSizing -> boxSizing webkitBoxSizing mozBoxSizing oBoxSizing msBoxSizing
         prefixedProps = (prop + ' ' + (domPrefixes).join(uppercaseProp + ' ') + uppercaseProp).split(' ');
-        prop = getPrefixedDomProp(prefixedProps, obj, elem);
+        prop = getPrefixedDomProp(prefixedProps, obj, elem, this.oUseragentDeprecated);
     }
 
     return prop;
 }
 
 
-module.exports = getPrefixedProp;
+module.exports = function () {
+    console.warn('o-useragent.prefixer is deprecated. Please use one of the new single task methods documented in the README')
+    return getPrefixedProp.apply({
+        oUseragentDeprecated: true
+    }, arguments);
+};
 
 module.exports.css = function (cssPropName) {
     return hyphenateProp(getPrefixedProp(cssPropName));
@@ -147,5 +152,5 @@ module.exports.getDomProperty = function (obj, domPropName) {
 };
 
 module.exports.getDomMethod = function (obj, domPropName, bindTo) {
-    return getPrefixedProp(domPropName, obj, bindTo);
+    return getPrefixedProp(domPropName, obj, bindTo, true);
 };
