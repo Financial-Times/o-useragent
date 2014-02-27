@@ -33,6 +33,25 @@ function bind (func, obj) {
     }
 }
 
+function cssPrefixer (cssPropName) {
+    return hyphenateProp(getPrefixedProp(cssPropName));
+}
+
+function getStylePropValue (computedStyle, prop) {
+    return computedStyle.getPropertyValue(cssPrefixer(prop));
+}
+
+// function getStyleValues (el, props) {
+//     var elStyles = getComputedStyle(el, null),
+//         vals = [];
+
+//     for (var i = props.length - 1;i>=0;i--) {
+//         vals.unshift(getStylePropValue(elStyles, props[i]));
+//     }
+//     return vals;
+// }
+
+
 /*
  * Given a list of equivalent style properties (all but one of them containing a vendor prefix), returns the first one that is supported by the browser
  */
@@ -125,15 +144,14 @@ function getPrefixedProp (prop, obj, elem) {
 
 
 module.exports = function () {
-    console.warn('o-useragent.prefixer is deprecated. Please use one of the new single task methods documented in the README')
+    console.warn('o-useragent.prefixer is deprecated. Please use one of the new single task methods documented in the README');
+    
     return getPrefixedProp.apply({
         oUseragentDeprecated: true
     }, arguments);
 };
 
-module.exports.css = function (cssPropName) {
-    return hyphenateProp(getPrefixedProp(cssPropName));
-};
+module.exports.css = cssPrefixer;
 
 module.exports.style = function (stylePropName) {
     return getPrefixedProp(stylePropName, style);
@@ -144,11 +162,11 @@ module.exports.dom = function (obj, domPropName) {
 };
 
 module.exports.getStyleValue = function (element, stylePropName) {
-    // not implemented
+    return getStylePropValue(getComputedStyle(element, null), stylePropName);
 };
 
 module.exports.getDomProperty = function (obj, domPropName) {
-    return getPrefixedProp(domPropName, obj); // but this still binds functions;
+    return getPrefixedProp(domPropName, obj);
 };
 
 module.exports.getDomMethod = function (obj, domPropName, bindTo) {
