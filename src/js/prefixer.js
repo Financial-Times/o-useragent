@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 var el = document.createElement('origami'),
     style = el.style,
@@ -123,4 +123,29 @@ function getPrefixedProp (prop, obj, elem) {
     return prop;
 }
 
+
 module.exports = getPrefixedProp;
+
+module.exports.css = function (cssPropName) {
+    return hyphenateProp(getPrefixedProp(cssPropName));
+};
+
+module.exports.style = function (stylePropName) {
+    return getPrefixedProp(stylePropName, style);
+};
+
+module.exports.dom = function (obj, domPropName) {
+    return getPrefixedProp(domPropName, obj, false);
+};
+
+module.exports.getStyleValue = function (element, stylePropName) {
+    // not implemented
+};
+
+module.exports.getDomProperty = function (obj, domPropName) {
+    return getPrefixedProp(domPropName, obj); // but this still binds functions;
+};
+
+module.exports.getDomMethod = function (obj, domPropName, bindTo) {
+    return getPrefixedProp(domPropName, obj, bindTo);
+};
