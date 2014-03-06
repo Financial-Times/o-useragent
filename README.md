@@ -107,9 +107,9 @@ This module also contains a polyfill for Internet Explorer 7's lack of support f
 
 This module also provides a javascript utility, `o-useragent.prefixer` to retrieve vendor-prefixed properties if the browser doesn't yet support it unprefixed.
 
-*Notes: 
-* Below `webkit` is used as an exemplar, but the prefixes `ms`, `moz` and `o` are also supported. 
-* All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
+*Notes:* 
+* *The prefixed checked for are `webkit`, `moz`, `ms` and `o`.*
+* *All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
 
 ### Retrieving prefixed property names
 
