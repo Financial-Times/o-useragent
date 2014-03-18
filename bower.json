@@ -9,6 +9,6 @@
     ".travis.yml"
   ],
   "dependencies": {
-  	"o-assets": "https://github.com/Financial-Times/o-assets.git#>=0.2.0"
+  	"o-assets": "^0.4.0"
   }
 }
