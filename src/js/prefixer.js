@@ -1,126 +1,159 @@
-'user strict';
+'use strict';
 
-var el = document.createElement('origami'),
+var el = document.createElement('o'),
     style = el.style,
     vendorPrefixes = 'Webkit Moz O ms',
     stylePrefixes = vendorPrefixes.split(' '),
-    domPrefixes = vendorPrefixes.toLowerCase().split(' ');
+    domPrefixes = vendorPrefixes.toLowerCase().split(' '),
 
-/* 
- * Simple object type checker
- */
-function is( obj, type ) {
-    return typeof obj === type;
-}
+    /* 
+     * Simple object type checker
+     */
+    is = function( obj, type ) {
+        return typeof obj === type;
+    },
 
-/*
- * Checks if a string contains another string
- */
-function contains( str, substr ) {
-    return ('' + str).indexOf(substr) + 1;
-}
+    /*
+     * Checks if a string contains another string
+     */
+    contains = function( str, substr ) {
+        return ('' + str).indexOf(substr) + 1;
+    },
 
-/*
- * Binding of a function to a given context
- */
-function bind (func, obj) {
-    if (Function.prototype.bind) {
-        return func.bind(obj);
-    } else {
-        return function () {
-            return func.apply(obj, arguments);
-        };
-    }
-}
-
-/*
- * Given a list of equivalent style properties (all but one of them containing a vendor prefix), returns the first one that is supported by the browser
- */
-function getPrefixedStyleProp (prefixedProps) {
-    for (var i in prefixedProps) {
-        var prop = prefixedProps[i];
-        if (!contains(prop, "-") && style[prop] !== undefined) {
-            return prop;
+    /*
+     * Binding of a function to a given context
+     */
+    bind = function (func, obj) {
+        if (Function.prototype.bind) {
+            return func.bind(obj);
+        } else {
+            return function () {
+                return func.apply(obj, arguments);
+            };
         }
-    }
-    return false;
-}
+    },
 
-/*
- * Given a list of equivalent DOM properties (all but one of them containing a vendor prefix), returns the first one that is supported by the browser
- */
-function getPrefixedDomProp (prefixedProps, obj, elem) {
-    for (var i in prefixedProps) {
-        var item = obj[prefixedProps[i]];
-        if (item !== undefined) {
-
-            if (elem === false) return prefixedProps[i];
-
-            if (is(item, 'function')) {
-                return bind(item, elem || obj);
-            }
-
-            return item;
-        }
-    }
-    return false;
-}
-
-/*
- * Analyses a property name to see if it's camel case or hyphenated. If hyphenated, converts to hyphenated and 
- * makes a note that the conversion needs to be undone before returning.
- */
-function preprocessProp (prop) {
-    var obj = {
-        prop: prop
-    };
-    if (prop.indexOf('-') > -1) {
-        obj.prop = prop.replace(/(?:\-)([a-z])/gi, function ($0, $1) {
+    /*
+     * Converts a hyphenated string to camel case
+     */
+    camelify = function (str) {
+        return (str.indexOf('-') > -1) ? str.replace(/(?:\-)([a-z])/gi, function ($0, $1) {
             return $1.toUpperCase();
-        });
-        obj.hyphenated = true;
-    }
-    return obj;
-}
+        }) : str;
+    },
 
-/*
- * Converts a camelcase property to its hyphenated equivalent
- */
-function hyphenateProp (prop) {
-    return prop.replace(/([A-Z])/g, function (prop, m1) {
-        return '-' + m1.toLowerCase();
-    }).replace(/^ms-/,'-ms-');
-}
-
-/*
- * Given a style property name returns the property name (possibly prefixed) if supported by the browser
- * Given a DOM property name and an object on which the property is expected to be defined, finds the 
- *  (possibly prefixed) property and:
- *      - if elem === false, returns the (possibly prefixed) property name 
- *      - if the value is a function, returns the function bound to obj (or to elem if defined)
- *      - otherwise returns the value of the property
- */
-function getPrefixedProp (prop, obj, elem) {
-
-    var processedProp = preprocessProp(prop),
-        prop = processedProp.prop,
-        uppercaseProp = prop.charAt(0).toUpperCase() + prop.slice(1),
-        prefixedProps;
-
-    if (is(obj, "undefined")) {
-        // e.g. boxSizing -> boxSizing WebkitBoxSizing MozBoxSizing OBoxSizing msBoxSizing
-        prefixedProps = (prop + ' ' + stylePrefixes.join(uppercaseProp + ' ') + uppercaseProp).split(' ');
-        prop = getPrefixedStyleProp(prefixedProps);
-        if (prop && processedProp.hyphenated) {
-            prop = hyphenateProp(prop);
+    /*
+     * Converts a camelcase property to its hyphenated equivalent
+     */
+    hyphenateProp = function (prop) {
+        if (prop) {
+            return prop.replace(/([A-Z])/g, function ($0, $1) {
+                return '-' + $1.toLowerCase();
+            }).replace(/^ms-/,'-ms-');
+        } else {
+            return false;
         }
-    } else {
-        // e.g. boxSizing -> boxSizing webkitBoxSizing mozBoxSizing oBoxSizing msBoxSizing
-        prefixedProps = (prop + ' ' + (domPrefixes).join(uppercaseProp + ' ') + uppercaseProp).split(' ');
-        prop = getPrefixedDomProp(prefixedProps, obj, elem);
-    }
+    },
 
-    return prop;
-}
+    /*
+     *  Gets a list of prefixed properties derived from a single w3c property name. It always has the unprefixed property as the first item in the list
+     */
+    getPrefixedPropList = function (prop, prefixes) {
+        var capitalisedProp = prop.charAt(0).toUpperCase() + prop.slice(1);
+            
+        return (prop + ' ' + prefixes.join(capitalisedProp + ' ') + capitalisedProp).split(' ');
+    },
 
-module.exports = getPrefixedProp;
+    /*
+     * Given a list of property names, returns the first name that is defined on an object. If none are defined returns false
+     */
+    getFirstDefinedProp = function (obj, propNameList) {
+        for (var i in propNameList) {
+            var prop = propNameList[i];
+            if (obj[prop] !== undefined) {
+                return prop;
+            }
+        }
+        return false;
+    },
+
+    /*
+     *  Returns the vendor prefixed version of a style property
+     */
+    stylePrefixer = function (stylePropName) {
+        return getFirstDefinedProp(style, getPrefixedPropList(camelify(stylePropName), stylePrefixes));
+    },
+
+    /*
+     *  Returns the vendor prefixed version of a dom property
+     */
+    domPrefixer = function (obj, domPropName) {
+        return getFirstDefinedProp(obj, getPrefixedPropList(camelify(domPropName), domPrefixes));
+    },
+
+    /*
+     *  Returns the hyphenated vendor prefixed version of a css property
+     */
+    cssPrefixer = function (cssPropName) {
+       return hyphenateProp(stylePrefixer(cssPropName));
+    },
+
+    /*
+     *  Returns the value of a vendor prefixed version of a dom property
+     */
+    getDomProperty = function (obj, domPropName) {
+        var prop = obj[domPrefixer(obj, domPropName)];
+        return is(prop, 'undefined') ? false : prop;
+    },
+
+    /*
+     *  Returns a vendor prefixed DOM method bound to a given object
+     */
+    getDomMethod = function (obj, domPropName, bindTo) {
+        var prop = getDomProperty(obj, domPropName);
+        
+        return is(prop, 'function') ? bind(prop, obj || bindTo) : false;
+    },
+
+    /*
+     *  Returns the value of a vendor prefixed version of a style property
+     *  If a list of properties is requested returns a hash table of the form { requestedPropertyName {prefixedName: 'webkitStyle', value: '10px'}} 
+     */
+    getStyleValue = function (element, stylePropNames) {
+        var computedStyle = getComputedStyle(element, null),
+            result = {},
+            styleEntry,
+            prefixedName;
+        if (stylePropNames.indexOf(' ') === -1) {
+            return computedStyle.getPropertyValue(cssPrefixer(stylePropNames));
+        }
+        
+        stylePropNames = stylePropNames.split(' ');
+
+        for (var i = stylePropNames.length - 1; i >= 0; i--) {
+            prefixedName = cssPrefixer(stylePropNames[i]);
+
+            styleEntry = {
+                prefixedName: cssPrefixer(stylePropNames[i])
+            };
+
+            result[stylePropNames[i]] = {
+                prefixedName: prefixedName,
+                value: computedStyle.getPropertyValue(prefixedName)
+            };
+        }
+
+        return result;
+    };
+
+module.exports = {
+    css: cssPrefixer,
+    style: stylePrefixer,
+    dom: domPrefixer,
+    getStyleValue: getStyleValue,
+    getDomProperty: getDomProperty,
+    getDomMethod: getDomMethod
+};
+
+
+

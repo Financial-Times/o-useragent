@@ -105,18 +105,41 @@ This module also contains a polyfill for Internet Explorer 7's lack of support f
 
 ## Usage for JavaScript vendor-prefixer
 
-This module also provides a javascript utility, `o-useragent.prefixer` to retrieve a vendor-prefixed property if the browser doesn't yet support it unprefixed e.g. if given `transition-duration` in newer browsers it will return `transition-duration`, but will return `-webkit-transition-duration`, `-ms-transition-duration` etc... in older browsers that support the property but with a prefix. It can be used for either DOM or style properties as follows (NB: below 'correct' means the correct choice of unprefixed or vendor prefixed property as defined in the browser)
+This module also provides a javascript utility, `o-useragent.prefixer` to retrieve vendor-prefixed properties if the browser doesn't yet support it unprefixed.
 
-### Style properties
+*Notes:* 
+* *The prefixed checked for are `webkit`, `moz`, `ms` and `o`.*
+* *All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
 
-* `o-useragent.prefixer('transition-duration')`: returns the correct hyphenated css property name
-* `o-useragent.prefixer('transitionDuration')`: returns the correct camel-cased el.style property name
+### Retrieving prefixed property names
+The methods below return the unprefixed name if it exists, failing that they retrieve the prefixed name, or false if the property is not defined at all.
 
-### Dom properties
+* `o-useragent#prefixer.css(propertyName)`  
+retrieves the hyphenated css property name
+* `o-useragent#prefixer.style(propertyName)`  
+retrieves the camel-cased style property name
+* `o-useragent#prefixer.dom(obj, propertyName)`  
+retrieves the camel-cased DOM property name e.g
 
-*Note - the following methods also support being passed hyphenated property names*
+### Retrieving the values stored in prefixed properties
 
-* `o-useragent.prefixer('applicationCache', window)`: returns the correct applicationCache object
-* `o-useragent.prefixer('postMessage', window)`: returns the correct postMessage method bound to the window object
-* `o-useragent.prefixer('matchesSelector', HTMLElement.prototype, document.body)`: returns the correct matchesSelector method bound to the document.body
-* `o-useragent.prefixer('applicationCache', window, false)`: returns the correct *camel-cased* property name for the applicationCache object
+The methods below retrieve the values of prefixed properties defined on given objects. 
+
+* `o-useragent#prefixer.getStyleValue(element, propertyName)`  
+retrieves the value of a HTML element's style property, or false if not defined. if `propertyName` is a space-separated list of values then an object of the following form is returned:
+
+		{
+			propertyName1: {
+				prefixedName: webkitPrefixedName1,
+	            value: 'value1'
+			},
+			propertyName2: {
+				prefixedName: webkitPrefixedName2,
+	            value: 'value2'
+			}
+		}
+
+* `o-useragent#prefixer.getDomProperty(obj, propertyName)`  
+retrieves the value of a DOM object's property, or false if not defined
+* `o-useragent#prefixer.getDomMethod(obj, propertyName, [bindTo])`  
+retrieves a method of a DOM object bound to that object (or to a different obj if one is passed as a third parameter). Returns false if the property is undefined or not a function
