@@ -112,7 +112,6 @@ This module also provides a javascript utility, `o-useragent.prefixer` to retrie
 * *All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
 
 ### Retrieving prefixed property names
-
 The methods below return the unprefixed name if it exists, failing that they retrieve the prefixed name, or false if the property is not defined at all.
 
 * `o-useragent#prefixer.css(propertyName)`  
@@ -122,7 +121,7 @@ retrieves the camel-cased style property name
 * `o-useragent#prefixer.dom(obj, propertyName)`  
 retrieves the camel-cased DOM property name e.g
 
-### Dom properties
+### Retrieving the values stored in prefixed properties
 
 The methods below retrieve the values of prefixed properties defined on given objects. 
 
