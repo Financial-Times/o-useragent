@@ -95,7 +95,7 @@ var el = document.createElement('o'),
      *  Returns the hyphenated vendor prefixed version of a css property
      */
     cssPrefixer = function (cssPropName) {
-       return hyphenateProp(stylePrefixer);
+       return hyphenateProp(stylePrefixer(cssPropName));
     },
 
     /*
@@ -130,14 +130,14 @@ var el = document.createElement('o'),
         
         stylePropNames = stylePropNames.split(' ');
 
-        for (var i = stylePropNames.length - 1; i>=0; i--) {
+        for (var i = stylePropNames.length - 1; i >= 0; i--) {
             prefixedName = cssPrefixer(stylePropNames[i]);
 
             styleEntry = {
                 prefixedName: cssPrefixer(stylePropNames[i])
             };
 
-            result.name = {
+            result[stylePropNames[i]] = {
                 prefixedName: prefixedName,
                 value: computedStyle.getPropertyValue(prefixedName)
             };

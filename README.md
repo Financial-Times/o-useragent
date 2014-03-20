@@ -127,7 +127,19 @@ retrieves the camel-cased DOM property name e.g
 The methods below retrieve the values of prefixed properties defined on given objects. 
 
 * `o-useragent#prefixer.getStyleValue(element, propertyName)`  
-retrieves the value of a HTML element's style property, or false if not defined
+retrieves the value of a HTML element's style property, or false if not defined. if `propertyName` is a space-separated list of values then an object of the following form is returned:
+
+		{
+			propertyName1: {
+				prefixedName: webkitPrefixedName1,
+	            value: 'value1'
+			},
+			propertyName2: {
+				prefixedName: webkitPrefixedName2,
+	            value: 'value2'
+			}
+		}
+
 * `o-useragent#prefixer.getDomProperty(obj, propertyName)`  
 retrieves the value of a DOM object's property, or false if not defined
 * `o-useragent#prefixer.getDomMethod(obj, propertyName, [bindTo])`  
