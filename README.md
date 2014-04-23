@@ -110,6 +110,7 @@ This module also provides a javascript utility, `o-useragent.prefixer` to retrie
 *Notes:* 
 * *The prefixed checked for are `webkit`, `moz`, `ms` and `o`.*
 * *All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
+* *There are a few properties where the prefixed name differs in more than the prefix e.g. matches/webkitMatchesSelector. These can be dealt with by doing something like `prefixer.dom(document.body, 'matches') || prefixer.dom(document.body, 'matchesSelector')`*
 
 ### Retrieving prefixed property names
 The methods below return the unprefixed name if it exists, failing that they retrieve the prefixed name, or false if the property is not defined at all.
