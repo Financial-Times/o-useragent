@@ -17,7 +17,7 @@
 	}
 	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
 		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
-		@debug "Styles are being targeted at #{$useragent}.  To apply them, extend %o-useragent-#{$useragent} in a class, and apply the class to your HTML tag when #{$useragent} is detected.";
+		@debug "Styles are being targeted at #{$useragent}.  To apply them, extend %o-useragent-#{$useragent} in a prefix, and apply the class to your HTML tag when #{$useragent} is detected.";
 	}
 	$selector: o-useragent- + $useragent;
 	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
@@ -45,4 +45,18 @@
 		}
 	}
 	@include _oUseragentWrapInSelector($selector) { @content };
+}
+
+@mixin _oUseragentPrefix ($prefix, $prop, $val, $apply-prefix-to-value: false) {
+    @if ($apply-prefix-to-value) {
+        $val: #{$prefix + $val};
+    }
+    #{$prefix + $prop}: $val;
+}
+
+@mixin oUseragentVendorify ($prop, $val, $apply-prefix-to-value: false, $prefixes: webkit moz ms o) {
+	@each $prefix in $prefixes {
+	    @include _oUseragentPrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value);
+	}
+    #{$prop}: $val;
 }
