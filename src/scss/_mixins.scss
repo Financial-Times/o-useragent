@@ -47,17 +47,17 @@
 	@include _oUseragentWrapInSelector($selector) { @content };
 }
 
-@mixin _oUseragentPrefix ($prefix, $prop, $val, $apply-prefix-to-value: false) {
+@mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value: false) {
     @if ($apply-prefix-to-value) {
         $val: #{$prefix + $val};
     }
     #{$prefix + $prop}: $val;
 }
 
-@mixin oUseragentVendorify ($prop, $val, $apply-prefix-to-value: false, $prefixes: $o-useragent-vendor-prefixes) {
+@mixin oUseragentPrefixer ($prop, $val, $apply-prefix-to-value: false, $prefixes: $o-useragent-vendor-prefixes) {
 	@each $prefix in $prefixes {
 		@if (contains($o-useragent-vendor-prefixes, $prefix)) {
-		    @include _oUseragentPrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value);
+		    @include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value);
 		}
 	}
     #{$prop}: $val;
