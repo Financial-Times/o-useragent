@@ -105,9 +105,9 @@ This module also contains a polyfill for Internet Explorer 7's lack of support f
 
 ## Usage for CSS vendor-prefixer
 
-A mixin `oUseragentVendorify` is provided to prefix css style rules with the vendor prefixes `webkit`, `moz`, `ms` and `o`.
+A mixin `oUseragentPrefixer` is provided to prefix css style rules with the vendor prefixes `webkit`, `moz`, `ms` and `o`.
 
-* `oUseragentVendorify($prop, $val, [$apply-prefix-to-value, [$prefixes]])` - generates variants of a style rule for given vendors
+* `oUseragentPrefixer($prop, $val, [$apply-prefix-to-value, [$prefixes]])` - generates variants of a style rule for given vendors
 
 	* `$prop` - the style property to be prefixed
 	* `$val` - the value to assign to the property
