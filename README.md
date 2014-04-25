@@ -114,6 +114,8 @@ A mixin `oUseragentVendorify` is provided to prefix css style rules with the ven
 	* `$apply-prefix-to-value` - whether to prefix the value as well as the property (defaults to `false`)
 	* `$prefixes` - space separated list of prefixes to apply, defaults to `webkit moz ms o`
 
+Within a product the variable `$o-useragent-vendor-prefixes` (which defaults to `webkit moz ms o`) can be set to alter globally which vendor prefixes should be included in the stylesheet.
+
 ## Usage for JavaScript vendor-prefixer
 
 This module also provides a javascript utility, `o-useragent.prefixer` to retrieve vendor-prefixed properties if the browser doesn't yet support it unprefixed.
