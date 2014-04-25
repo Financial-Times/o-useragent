@@ -103,6 +103,19 @@ This module also contains a polyfill for Internet Explorer 7's lack of support f
 		@include oUseragentIe7BoxSizing();
     }
 
+## Usage for CSS vendor-prefixer
+
+A mixin `oUseragentVendorify` is provided to prefix css style rules with the vendor prefixes `webkit`, `moz`, `ms` and `o`.
+
+* `oUseragentVendorify($prop, $val, [$apply-prefix-to-value, [$prefixes]])` - generates variants of a style rule for given vendors
+
+	* `$prop` - the style property to be prefixed
+	* `$val` - the value to assign to the property
+	* `$apply-prefix-to-value` - whether to prefix the value as well as the property (defaults to `false`)
+	* `$prefixes` - space separated list of prefixes to apply, defaults to `webkit moz ms o`
+
+Within a product the variable `$o-useragent-vendor-prefixes` (which defaults to `webkit moz ms o`) can be set to alter globally which vendor prefixes should be included in the stylesheet.
+
 ## Usage for JavaScript vendor-prefixer
 
 This module also provides a javascript utility, `o-useragent.prefixer` to retrieve vendor-prefixed properties if the browser doesn't yet support it unprefixed.
