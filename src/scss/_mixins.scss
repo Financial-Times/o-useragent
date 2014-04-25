@@ -47,17 +47,20 @@
 	@include _oUseragentWrapInSelector($selector) { @content };
 }
 
-@mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value: false) {
+@mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop) {
     @if ($apply-prefix-to-value) {
         $val: #{$prefix + $val};
     }
-    #{$prefix + $prop}: $val;
+    @if ($apply-prefix-to-prop) {
+        $prop: #{$prefix + $prop};
+    }
+    #{$prop}: $val;
 }
 
-@mixin oUseragentPrefixer ($prop, $val, $apply-prefix-to-value: false, $prefixes: $o-useragent-vendor-prefixes) {
+@mixin oUseragentPrefixer ($prop, $val, $apply-prefix-to-value: false, $apply-prefix-to-prop: true, $prefixes: $o-useragent-vendor-prefixes) {
 	@each $prefix in $prefixes {
 		@if (contains($o-useragent-vendor-prefixes, $prefix)) {
-		    @include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value);
+		    @include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop);
 		}
 	}
     #{$prop}: $val;

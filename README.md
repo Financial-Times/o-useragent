@@ -107,11 +107,12 @@ This module also contains a polyfill for Internet Explorer 7's lack of support f
 
 A mixin `oUseragentPrefixer` is provided to prefix css style rules with the vendor prefixes `webkit`, `moz`, `ms` and `o`.
 
-* `oUseragentPrefixer($prop, $val, [$apply-prefix-to-value, [$prefixes]])` - generates variants of a style rule for given vendors
+* `oUseragentPrefixer($prop, $val, [$apply-prefix-to-value, [$apply-prefix-to-prop, [$prefixes]])` - generates variants of a style rule for given vendors
 
 	* `$prop` - the style property to be prefixed
 	* `$val` - the value to assign to the property
 	* `$apply-prefix-to-value` - whether to prefix the value as well as the property (defaults to `false`)
+	* `$apply-prefix-to-prop` - whether to prefix the property name (defaults to `true`)
 	* `$prefixes` - space separated list of prefixes to apply, defaults to `webkit moz ms o`
 
 Within a product the variable `$o-useragent-vendor-prefixes` (which defaults to `webkit moz ms o`) can be set to alter globally which vendor prefixes should be included in the stylesheet.
