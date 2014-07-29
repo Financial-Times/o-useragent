@@ -2,6 +2,9 @@
 
 This module provides a mechanism for marking SASS that exists to target issues in particular user agents and a javascript utility for working with vendor-prefixed properties.
 
+## Browser support
+This module has been verified in Internet Explorer 7+, modern desktop browsers (Chrome, Safari, Firefox, ...) and mobile browsers (Android browser, iOS safari, Chrome mobile). 
+
 ## Installation
 
 To include `o-useragent` in your module or product run
