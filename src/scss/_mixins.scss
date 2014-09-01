@@ -8,9 +8,6 @@
 	@if ($version) {
 		$useragent: $useragent$version;
 	}
-	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
-		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
-	}
 	$selector: o-useragent- + $useragent;
 	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
 	@if (not $o-useragent-is-silent) {
