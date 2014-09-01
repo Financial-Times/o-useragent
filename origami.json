@@ -2,6 +2,6 @@
   "description": "User agent targeting",
   "origamiType": "module",
   "origamiVersion": 1,
-  "support": "rhys.evans@ft.com",
+  "support": "https://github.com/Financial-Times/o-useragent/issues",
   "supportStatus": "active"
 }

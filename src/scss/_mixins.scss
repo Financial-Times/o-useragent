@@ -3,13 +3,6 @@
 	*behavior: url(oAssetsResolve("polyfills/boxsizing.htc", o-useragent));
 }
 
-// outputs style rules wrapped by a selector, or nothing if the selector is null
-@mixin _oUseragentWrapInSelector ($selector:null) {
-	@if($selector) {
-		#{$selector} { @content }
-	} 
-}
-
 // appends a useragent selector to an existing list of selectors
 @function _oUseragentAppendSelector ($aggregate, $useragent, $version: null) {
 	@if ($version) {
@@ -17,17 +10,12 @@
 	}
 	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
 		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
-		@if ($o-useragent-is-silent) {
-			@debug "Styles are being targeted at #{$useragent}.  To apply them, extend %o-useragent-#{$useragent} in a class, and apply that class to your HTML tag when #{$useragent} is detected.";
-		} @else {
-			@debug "Styles are being targeted at #{$useragent}.  To apply them, add the class o-useragent-#{$useragent} to your HTML tag when #{$useragent} is detected.";	
-		}
 	}
 	$selector: o-useragent- + $useragent;
 	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
 	@if (not $o-useragent-is-silent) {
 		$aggregate: append($aggregate, #{'.#{$selector}'}, comma);
-	} 
+	}
 	@return $aggregate;
 }
 
@@ -35,20 +23,22 @@
 @mixin oUseragentTarget ($useragents, $versions: null) {
 
 	$selector: null;
-	$ie-selector: null;
-	
+
+	// Target at version-level (may apply only to a single browser family)
 	@if (count($useragents) == 1 and $versions) {
-		// multiple versions of a single useragent	
 		@each $version in $versions {
 			$selector: _oUseragentAppendSelector($selector, $useragents, $version);
-		}		
+		}
+
+	// Target at browser-level
 	} @else {
-		// multiple useragents
 		@each $useragent in $useragents {
 			$selector: _oUseragentAppendSelector($selector, $useragent);
 		}
 	}
-	@include _oUseragentWrapInSelector($selector) { @content };
+	@if ($selector) {
+		#{$selector} { @content }
+	}
 }
 
 @mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop) {
