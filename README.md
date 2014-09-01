@@ -3,21 +3,11 @@
 This module provides a mechanism for marking SASS that exists to target issues in particular user agents and a javascript utility for working with vendor-prefixed properties.
 
 ## Browser support
-This module has been verified in Internet Explorer 7+, modern desktop browsers (Chrome, Safari, Firefox, ...) and mobile browsers (Android browser, iOS safari, Chrome mobile). 
+This module has been verified in Internet Explorer 7+, modern desktop browsers (Chrome, Safari, Firefox, ...) and mobile browsers (Android browser, iOS safari, Chrome mobile).
 
 ## Installation
 
-To include `o-useragent` in your module or product run
-
-	bower install o-useragent=https://github.com/Financial-Times/o-useragent.git --save
-
-To load the SASS, add the following to the top of your SASS stylesheet
-
-	@import "o-useragent/main";
-
-To load the JavaScript, require the module where required:
-
-	var ua = require('o-useragent');
+To include `o-useragent` in your module follow the instructions in [the module's page in the Origmai registry](http://registry.origami.ft.com/components/o-useragent).
 
 ## User agent names
 
@@ -31,13 +21,13 @@ While the useragent module does not restrict the identifiers that are used, it o
 * `chromeandroid` Google Chrome on Android
 * `iossafari` Apple Mobile Safari on iOS
 * `androidbrowser` OS-integrated browser on Android
-* `operamobile` Opera mobile on Android, Windows Phone, Windows, Meego, S60 
+* `operamobile` Opera mobile on Android, Windows Phone, Windows, Meego, S60
 * `chromeios` Google Chrome on iOS
 * `iemobile` Microsoft Internet Explorer on Windows Phone
 
 ## Usage for UA targeting
 
-Use of the SASS targeting feature of this module comprises three parts: 
+Use of the SASS targeting feature of this module comprises three parts:
 
 * providing styles that are targeted to a specified user agent (usually in a component)
 * opting in or out of any special rules to target particular user agents (usually in a product)
@@ -49,8 +39,6 @@ To target styles at a given user agent use the `oUseragentTarget($useragents[, $
 
  * `$useragents` - a space-separated list of useragents to target, each of which *may* end with a hyphenated version number
  * `$versions` - if `$useragents` specifies a single, unversioned useragent, multiple version numbers can be specified here
-
-#### Examples
 
 The following examples turn the background colour of `<h1>` elements red only in the targeted user agents
 
@@ -77,7 +65,7 @@ If you are generating your style bundle from the build service, all useragent-ta
 
 #### Using a local build process
 
-If you are [building your product's origami styles locally](http://financial-times.github.io/ft-origami/docs/developer-guide/building-modules/) Sass will log to the console any specific useragent targeting that it encounters while building the bundle, and by default will not include any of the special targeted rules. To output useragent X you will need to carry out your own ua-sniffing for X and conditionally add a class of your choice, say `class-X`, to the `<html>` tag. Then in your sass:
+If you are [building your product's origami styles locally](http://financial-times.github.io/ft-origami/docs/developer-guide/building-modules/) Sass will by default not include any of the special targeted rules. To output rules intended for useragent X you will need to carry out your own ua-sniffing for X and conditionally add a class of your choice, say `class-X`, to the `<html>` tag. Then in your sass:
 
 ```scss
 .ie7 { @extend %o-useragent-ie7 !optional; }
@@ -124,7 +112,7 @@ Within a product the variable `$o-useragent-vendor-prefixes` (which defaults to 
 
 This module also provides a javascript utility, `o-useragent.prefixer` to retrieve vendor-prefixed properties if the browser doesn't yet support it unprefixed.
 
-*Notes:* 
+*Notes:*
 * *The prefixed checked for are `webkit`, `moz`, `ms` and `o`.*
 * *All the methods support being passed either hyphenated or camel-cased property names and will return a hyphenated or camel-cased string as appropriate*
 * *There are a few properties where the prefixed name differs in more than the prefix e.g. matches/webkitMatchesSelector. These can be dealt with by doing something like `prefixer.dom(document.body, 'matches') || prefixer.dom(document.body, 'matchesSelector')`*
@@ -132,18 +120,18 @@ This module also provides a javascript utility, `o-useragent.prefixer` to retrie
 ### Retrieving prefixed property names
 The methods below return the unprefixed name if it exists, failing that they retrieve the prefixed name, or false if the property is not defined at all.
 
-* `o-useragent#prefixer.css(propertyName)`  
+* `o-useragent#prefixer.css(propertyName)`
 retrieves the hyphenated css property name
-* `o-useragent#prefixer.style(propertyName)`  
+* `o-useragent#prefixer.style(propertyName)`
 retrieves the camel-cased style property name
-* `o-useragent#prefixer.dom(obj, propertyName)`  
+* `o-useragent#prefixer.dom(obj, propertyName)`
 retrieves the camel-cased DOM property name e.g
 
 ### Retrieving the values stored in prefixed properties
 
-The methods below retrieve the values of prefixed properties defined on given objects. 
+The methods below retrieve the values of prefixed properties defined on given objects.
 
-* `o-useragent#prefixer.getStyleValue(element, propertyName)`  
+* `o-useragent#prefixer.getStyleValue(element, propertyName)`
 retrieves the value of a HTML element's style property, or false if not defined. if `propertyName` is a space-separated list of values then an object of the following form is returned:
 
 		{
@@ -157,7 +145,7 @@ retrieves the value of a HTML element's style property, or false if not defined.
 			}
 		}
 
-* `o-useragent#prefixer.getDomProperty(obj, propertyName)`  
+* `o-useragent#prefixer.getDomProperty(obj, propertyName)`
 retrieves the value of a DOM object's property, or false if not defined
-* `o-useragent#prefixer.getDomMethod(obj, propertyName, [bindTo])`  
+* `o-useragent#prefixer.getDomMethod(obj, propertyName, [bindTo])`
 retrieves a method of a DOM object bound to that object (or to a different obj if one is passed as a third parameter). Returns false if the property is undefined or not a function
