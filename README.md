@@ -85,14 +85,6 @@ If you used a local build process, apply the classes to which you remapped the o
 
 	<html class='ie7'>
 
-## Usage for Box-sizing polyfill
-
-This module also contains a polyfill for Internet Explorer 7's lack of support for css `box-sizing`. To use it, include the `oUseragentIe7BoxSizing` mixin:
-
-    .column {
-		box-sizing: border-box;
-		@include oUseragentIe7BoxSizing();
-    }
 
 ## Usage for CSS vendor-prefixer
 

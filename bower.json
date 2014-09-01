@@ -2,13 +2,8 @@
   "name": "o-useragent",
   "main": ["main.scss", "main.js"],
   "ignore": [
-    "Gruntfile.js",
-    "package.json",
     ".gitignore",
     "test",
     ".travis.yml"
-  ],
-  "dependencies": {
-  	"o-assets": "^0.4.0"
-  }
+  ]
 }
