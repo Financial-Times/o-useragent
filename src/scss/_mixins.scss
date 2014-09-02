@@ -1,8 +1,3 @@
-// Polyfills box-sizing in ie7
-@mixin oUseragentIe7BoxSizing () {
-	*behavior: url(oAssetsResolve("polyfills/boxsizing.htc", o-useragent));
-}
-
 // appends a useragent selector to an existing list of selectors
 @function _oUseragentAppendSelector ($aggregate, $useragent, $version: null) {
 	@if ($version) {
