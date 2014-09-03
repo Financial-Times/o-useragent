@@ -36,6 +36,18 @@
 	}
 }
 
+@mixin oUseragentListTargets() {
+	@debug "Styles are being targeted at specific user agents.";
+	@if ($o-useragent-is-silent) {
+		@debug "To apply them, extend %o-useragent-[UA-IDENTIFIER] in a class, and apply that class to your HTML tag, for the following user agents:"
+	} @else {
+		@debug "To apply them, add the class o-useragent-[UA-IDENTIFIER] to your HTML tag for the following user agents:";
+	}
+	@debug $_o-useragent-targeted-useragents;
+}
+
+
+
 @mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop) {
     @if ($apply-prefix-to-value) {
         $val: #{$prefix + $val};
@@ -48,7 +60,7 @@
 
 @mixin oUseragentPrefixer ($prop, $val, $apply-prefix-to-value: false, $apply-prefix-to-prop: true, $prefixes: $o-useragent-vendor-prefixes) {
 	@each $prefix in $prefixes {
-		@if (contains($o-useragent-vendor-prefixes, $prefix)) {
+		@if (index($o-useragent-vendor-prefixes, $prefix)) {
 		    @include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop);
 		}
 	}
