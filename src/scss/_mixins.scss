@@ -6,6 +6,10 @@
 	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
 		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
 	}
+	@if (not $_o-useragent-emitted-warning) {
+		@debug "The CSS includes styles intended only for specific browsers.  For more details, @include oUseragentListTargets() at the end of your CSS.";
+		$_o-useragent-emitted-warning: true;
+	}
 	$selector: o-useragent- + $useragent;
 	$aggregate: append($aggregate, #{'%#{$selector}'}, comma);
 	@if (not $o-useragent-is-silent) {
@@ -37,7 +41,7 @@
 }
 
 @mixin oUseragentListTargets() {
-	@debug "Styles are being targeted at specific user agents.";
+	@debug "Styles are being targeted at specific browsers using the o-useragent module.";
 	@if ($o-useragent-is-silent) {
 		@debug "To apply them, extend %o-useragent-[UA-IDENTIFIER] in a class, and apply that class to your HTML tag, for the following user agents:"
 	} @else {

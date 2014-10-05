@@ -6,7 +6,7 @@ var el = document.createElement('o'),
     stylePrefixes = vendorPrefixes.split(' '),
     domPrefixes = vendorPrefixes.toLowerCase().split(' '),
 
-    /* 
+    /*
      * Simple object type checker
      */
     is = function( obj, type ) {
@@ -60,7 +60,7 @@ var el = document.createElement('o'),
      */
     getPrefixedPropList = function (prop, prefixes) {
         var capitalisedProp = prop.charAt(0).toUpperCase() + prop.slice(1);
-            
+
         return (prop + ' ' + prefixes.join(capitalisedProp + ' ') + capitalisedProp).split(' ');
     },
 
@@ -111,13 +111,13 @@ var el = document.createElement('o'),
      */
     getDomMethod = function (obj, domPropName, bindTo) {
         var prop = getDomProperty(obj, domPropName);
-        
+
         return is(prop, 'function') ? bind(prop, obj || bindTo) : false;
     },
 
     /*
      *  Returns the value of a vendor prefixed version of a style property
-     *  If a list of properties is requested returns a hash table of the form { requestedPropertyName {prefixedName: 'webkitStyle', value: '10px'}} 
+     *  If a list of properties is requested returns a hash table of the form { requestedPropertyName {prefixedName: 'webkitStyle', value: '10px'}}
      */
     getStyleValue = function (element, stylePropNames) {
         var computedStyle = getComputedStyle(element, null),
@@ -127,7 +127,7 @@ var el = document.createElement('o'),
         if (stylePropNames.indexOf(' ') === -1) {
             return computedStyle.getPropertyValue(cssPrefixer(stylePropNames));
         }
-        
+
         stylePropNames = stylePropNames.split(' ');
 
         for (var i = stylePropNames.length - 1; i >= 0; i--) {
@@ -154,6 +154,3 @@ module.exports = {
     getDomProperty: getDomProperty,
     getDomMethod: getDomMethod
 };
-
-
-
