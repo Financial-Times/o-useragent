@@ -4,7 +4,7 @@
 		$useragent: $useragent$version;
 	}
 	@if(not index($_o-useragent-targeted-useragents, $useragent)) {
-		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent);
+		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent) !global;
 	}
 	@if (not $_o-useragent-emitted-warning) {
 		@debug "The CSS includes styles intended only for specific browsers.  For more details, @include oUseragentListTargets() at the end of your CSS.";
