@@ -7,7 +7,6 @@
 		$_o-useragent-targeted-useragents: append($_o-useragent-targeted-useragents, $useragent) !global;
 	}
 	@if (not $_o-useragent-emitted-warning) {
-		@debug "The CSS includes styles intended only for specific browsers.  For more details, @include oUseragentListTargets() at the end of your CSS.";
 		$_o-useragent-emitted-warning: true !global;
 	}
 	$selector: o-useragent- + $useragent;
@@ -40,33 +39,25 @@
 	}
 }
 
-@mixin oUseragentListTargets() {
-	@debug "Styles are being targeted at specific browsers using the o-useragent module.";
-	@if ($o-useragent-is-silent) {
-		@debug "To apply them, extend %o-useragent-[UA-IDENTIFIER] in a class, and apply that class to your HTML tag, for the following user agents:"
-	} @else {
-		@debug "To apply them, add the class o-useragent-[UA-IDENTIFIER] to your HTML tag for the following user agents:";
-	}
-	@debug $_o-useragent-targeted-useragents;
-}
+@mixin oUseragentListTargets() {}
 
 
 
 @mixin _oUseragentSinglePrefix ($prefix, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop) {
-    @if ($apply-prefix-to-value) {
-        $val: #{$prefix + $val};
-    }
-    @if ($apply-prefix-to-prop) {
-        $prop: #{$prefix + $prop};
-    }
-    #{$prop}: $val;
+	@if ($apply-prefix-to-value) {
+		$val: #{$prefix + $val};
+	}
+	@if ($apply-prefix-to-prop) {
+		$prop: #{$prefix + $prop};
+	}
+	#{$prop}: $val;
 }
 
 @mixin oUseragentPrefixer ($prop, $val, $apply-prefix-to-value: false, $apply-prefix-to-prop: true, $prefixes: $o-useragent-vendor-prefixes) {
 	@each $prefix in $prefixes {
 		@if (index($o-useragent-vendor-prefixes, $prefix)) {
-		    @include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop);
+			@include _oUseragentSinglePrefix(#{'-' + $prefix + '-'}, $prop, $val, $apply-prefix-to-value, $apply-prefix-to-prop);
 		}
 	}
-    #{$prop}: $val;
+	#{$prop}: $val;
 }
