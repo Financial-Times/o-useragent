@@ -21,6 +21,9 @@ To include `o-useragent` in your module follow the instructions in
 
 ## Usage
 
+The JS prefixer is now deprecated. Please use an alternative method for testing for and applying 
+vendor prefixes for JS properties and CSS styles within your JS.
+
 `o-useragent.prefixer` retrieves vendor-prefixed properties if the browser
 doesn't yet support it unprefixed.
 
