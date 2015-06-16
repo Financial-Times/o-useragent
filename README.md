@@ -77,3 +77,9 @@ The methods below retrieve the values of prefixed properties defined on given ob
 	retrieves a method of a DOM object bound to that object (or to a
 	different obj if one is passed as a third parameter).
 	Returns false if the property is undefined or not a function
+
+----
+
+## Licence
+
+This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).
