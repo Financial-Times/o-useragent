@@ -4,7 +4,7 @@ JavaScript utility for working with vendor-prefixed properties.
 
 ## Serving UA-specific styles with Sass
 
-The Sass part of this module is now deprecated.
+The Sass part of this module has been removed.
 
 Please use an alternative way to provide styles for a specific user agent: conditional comments, selector and property hacks… Feel free to use http://browserhacks.com
 
@@ -21,7 +21,7 @@ To include `o-useragent` in your module follow the instructions in
 
 ## Usage
 
-The JS prefixer is now deprecated. Please use an alternative method for testing for and applying 
+The JS prefixer is now deprecated. Please use an alternative method for testing for and applying
 vendor prefixes for JS properties and CSS styles within your JS.
 
 `o-useragent.prefixer` retrieves vendor-prefixed properties if the browser

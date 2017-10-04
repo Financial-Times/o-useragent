@@ -1,6 +1,6 @@
 {
   "name": "o-useragent",
-  "main": ["main.scss", "main.js"],
+  "main": ["main.js"],
   "ignore": [
     ".gitignore",
     "test",
